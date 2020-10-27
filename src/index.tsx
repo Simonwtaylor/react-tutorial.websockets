@@ -3,14 +3,26 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { SocketManager } from './contexts/socket.context';
+import { Provider } from 'react-redux';
+import store from './store/store';
+import WebsocketConnection from './hoc/websocket-connection.hoc';
+// import { SocketManager } from './contexts/socket.context';
+
+const Root = ({ store }: any) => (
+  <React.StrictMode>
+    <Provider store={store}>
+      <WebsocketConnection
+        host={'ws://localhost:8080/ws'}
+      >
+        <App />
+      </WebsocketConnection>
+    </Provider>
+  </React.StrictMode>
+);
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <SocketManager>
-      <App />
-    </SocketManager>
-  </React.StrictMode>,
+  <Root store={store} />,
   document.getElementById('root')
 );
 

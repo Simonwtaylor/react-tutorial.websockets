@@ -1,23 +1,18 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { useWebSocket } from './contexts/socket.context';
+import { useSelector } from 'react-redux';
+import { selectTask } from './store';
 
 function App() {
-  const [appData, onAppData] = React.useState<any[]>([]);
-  const { socket } = useWebSocket();
 
-  if (socket) {
-    socket.onmessage = (data) => {
-      onAppData([...appData, JSON.parse(data.data)]);
-    };
-  }
+  const task = useSelector(selectTask);
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-          {appData?.map(({body}, i) => <p key={i}>{body}</p>)}
+          {task && task}
         <a
           className="App-link"
           href="https://reactjs.org"
